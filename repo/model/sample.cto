@@ -1,0 +1,96 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Simple decentralized exchange protocol
+ */
+
+namespace org.simpledex
+
+/**
+ * ASSETS
+ */
+
+enum OrderStatus {
+  o INITIATED
+  o OFFERED
+  o CLOSED
+}
+
+abstract asset AssetAncestor identified by assetId {
+  o String assetId
+}
+
+abstract asset OrderAncestor identified by orderId {
+  o String orderId
+  o Double amount
+  o String assetType
+  o Boolean buyOrSell 
+  o OrderStatus orderStatus
+}
+
+asset Order extends OrderAncestor { 
+}
+
+/**
+ * PARTICIPANTS
+ */
+
+abstract participant DEXAncestor identified by dexId {
+  o String dexId
+  --> Order[] orders
+}
+
+participant DEX extends DEXAncestor {
+}
+
+/**
+ * TRANSACTIONS
+ */
+
+transaction CreateDEX {  
+}
+
+transaction ClearData {
+}
+
+transaction CreateAndPlaceOrder {
+    --> DEX dex 
+    o Double amount
+    o String assetType
+    o Boolean buyOrSell
+}
+
+transaction PlaceOrder {
+  --> Order order
+  --> DEX dex 
+}
+
+/**
+ * EVENTS
+ */
+
+event OrderPlacedEvent {
+  --> Order order
+  --> DEX dex
+}
+
+event MatchingEvent {
+  --> Order[] orders
+  --> DEX dex
+}
+
+
+
+
