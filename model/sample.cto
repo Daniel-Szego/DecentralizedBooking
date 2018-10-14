@@ -13,84 +13,104 @@
  */
 
 /**
- * Simple decentralized exchange protocol
+ * Sample business network definition for the booking domain.
  */
 
-namespace org.simpledex
+namespace org.booking.model
 
 /**
  * ASSETS
  */
 
-enum OrderStatus {
-  o INITIATED
-  o OFFERED
-  o CLOSED
+abstract asset BookableObject identified by bookableId {
+  o String bookableId
+  o DateTime date
 }
 
-abstract asset AssetAncestor identified by assetId {
-  o String assetId
+enum RoomType {
+  o SIMPLE
+  o DELUX
+  o KING
 }
 
-abstract asset OrderAncestor identified by orderId {
-  o String orderId
-  o Double amount
-  o String assetType
-  o Boolean buyOrSell 
-  o OrderStatus orderStatus
+enum RoomStatus {
+  o FREE
+  o RESEREVED
 }
 
-asset Order extends OrderAncestor { 
+asset Room extends BookableObject {
+  o Integer numberOfPeople
+  o Integer numberOfBeds
+  o RoomType roomType
+  o RoomStatus roomStatus
+  --> Hotel hotel
+  --> EndUser endUser optional
 }
 
 /**
  * PARTICIPANTS
  */
 
-abstract participant DEXAncestor identified by dexId {
-  o String dexId
-  --> Order[] orders
+concept Address {
+  o String country
+  o String city optional
+  o String street optional
+  o Integer hauseNr optional
 }
 
-participant DEX extends DEXAncestor {
+abstract participant BookableObjectHolder identified by holderId {
+  o String holderId
+}
+
+participant Hotel extends BookableObjectHolder {
+  o String hotelName
+  o Address address
+}
+
+participant EndUser identified by userId {
+  o String userId
+  o String UserName
 }
 
 /**
  * TRANSACTIONS
  */
 
-transaction CreateDEX {  
+transaction IssueHotelRoom {
+  --> Hotel hotel
+  o Integer numberOfPeople
+  o Integer numberOfBeds
+  o RoomType roomType
+  o RoomStatus roomStatus
 }
 
-transaction ClearData {
+transaction ReserveRoom {
+  --> Room room
+  --> EndUser me
 }
 
-transaction CreateAndPlaceOrder {
-    --> DEX dex 
-    o Double amount
-    o String assetType
-    o Boolean buyOrSell
-}
-
-transaction PlaceOrder {
-  --> Order order
-  --> DEX dex 
+transaction TransferRoom {
+  --> Room room
+  --> EndUser to 
 }
 
 /**
  * EVENTS
  */
 
-event OrderPlacedEvent {
-  --> Order order
-  --> DEX dex
+event ObjectIssued {
+  --> BookableObject object
+  --> BookableObjectHolder objectHolder
 }
 
-event MatchingEvent {
-  --> Order[] orders
-  --> DEX dex
+event ObjectReservered {
+  --> BookableObject object
 }
 
+event ObjectTransferred {
+  --> BookableObject object
+  --> EndUser to 
+}
 
 
 
