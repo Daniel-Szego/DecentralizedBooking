@@ -76,6 +76,13 @@ participant EndUser identified by userId {
  * TRANSACTIONS
  */
 
+transaction InitTestData {
+}
+
+transaction ClearData {
+}
+
+
 transaction IssueHotelRoom {
   --> Hotel hotel
   o Integer numberOfPeople
@@ -111,6 +118,5 @@ event ObjectTransferred {
   --> BookableObject object
   --> EndUser to 
 }
-
 
 
