@@ -28,6 +28,21 @@ async function InitTestDataTransaction(param) {
  * @transaction
  */
 async function ClearDataTransaction(param) {  
+      console.log('clearing test data');
+
+    // deleting assets
+    const RoomReg = await getAssetRegistry(namespace + '.Room'); 
+    let Rooms = await RoomReg.getAll();
+    await RoomReg.removeAll(Rooms);
+  
+  	// deleting participants
+    const hotelReg = await getParticipantRegistry(namespace + '.Hotel');
+    let hotels = await hotelReg.getAll();
+    await hotelReg.removeAll(hotels);
+    
+    const endUserReg = await getParticipantRegistry(namespace + '.EndUser');
+    let endUsers = await endUserReg.getAll();
+    await endUserReg.removeAll(endUsers);
 }
 
 /**
