@@ -14,12 +14,60 @@
 
 /* global getAssetRegistry getFactory emit */
 
+const namespace = "org.booking.model"; 
+
 /**
  * Initializing test data.
  * @param {org.booking.model.InitTestData} param The sample transaction instance.
  * @transaction
  */
 async function InitTestDataTransaction(param) {  
+      console.log('init test data');
+
+    console.log('Creating a Hotel');  
+    const factory = getFactory(); 
+	
+  	// adding hotel 1
+    const hotelReg = await getParticipantRegistry(namespace + '.Hotel');   
+    const hotel = await factory.newResource(namespace, 'Hotel', "1");
+    hotel.hotelName = "Hotel 1";
+    const newAddress = await factory.newConcept(namespace, 'Address');
+	newAddress.country = "Bejing";
+	newAddress.city = "China";
+	newAddress.street = "Xia Mo Street";
+    newAddress.hauseNr = 16;
+  	hotel.address = newAddress;
+  
+    await hotelReg.add(hotel);       
+
+  	// adding hotel 1
+    console.log('Hotel 2');  
+
+    const hotel2 = await factory.newResource(namespace, 'Hotel', "2");
+    hotel2.hotelName = "Hotel 2";
+    const newAddress2 = await factory.newConcept(namespace, 'Address');
+	newAddress2.country = "Hong Kong";
+	newAddress2.city = "China";
+	newAddress2.street = "Mua Mo Street";
+    newAddress2.hauseNr = 22;
+  	hotel2.address = newAddress2;
+  
+    await hotelReg.add(hotel2);     
+  
+  	// adding endUser 1
+    const endUserReg = await getParticipantRegistry(namespace + '.EndUser');   
+    const endUser = await factory.newResource(namespace, 'EndUser', "1");
+    endUser.UserName = "John Rambo";
+  
+    await endUserReg.add(endUser);       
+
+    // adding endUser 2
+    const endUser2 = await factory.newResource(namespace, 'EndUser', "2");
+    endUser2.UserName = "John Rambo";
+  
+    await endUserReg.add(endUser2);       
+
+  
 }
 
 /**
@@ -68,8 +116,4 @@ async function ReserveRoomTransaction(param) {
  */
 async function TransferRoomTransaction(param) {  
 }
-
-
-
-
 
