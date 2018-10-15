@@ -89,6 +89,7 @@ transaction IssueHotelRoom {
   o Integer numberOfBeds
   o RoomType roomType
   o RoomStatus roomStatus
+  o String dateString
 }
 
 transaction ReserveRoom {

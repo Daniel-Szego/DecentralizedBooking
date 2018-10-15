@@ -22,7 +22,7 @@ const namespace = "org.booking.model";
  * @transaction
  */
 async function InitTestDataTransaction(param) {  
-      console.log('init test data');
+    console.log('init test data');
 
     console.log('Creating a Hotel');  
     const factory = getFactory(); 
@@ -88,8 +88,8 @@ async function InitTestDataTransaction(param) {
     room2.date = new Date(dateString2);
     room2.numberOfPeople = 3;
     room2.numberOfBeds = 2;
-    room2.roomType = "SIMPLE";
-    room2.roomStatus = "DELUXE";
+    room2.roomType = "DELUXE";
+    room2.roomStatus = "FREE";
     room2.hotel = hotel2;
   
     await roomReg.add(room2);       
@@ -114,7 +114,7 @@ async function InitTestDataTransaction(param) {
  * @transaction
  */
 async function ClearDataTransaction(param) {  
-      console.log('clearing test data');
+    console.log('clearing test data');
 
     // deleting assets
     const RoomReg = await getAssetRegistry(namespace + '.Room'); 
@@ -136,7 +136,39 @@ async function ClearDataTransaction(param) {
  * @param {org.booking.model.IssueHotelRoom} param The sample transaction instance.
  * @transaction
  */
-async function IssueHotelRoomTransaction(param) {  
+async function IssueHotelRoomTransaction(param) { 
+  
+  const factory = getFactory(); 
+
+  const hotel = param.hotel;
+  const numberOfPeople = param.numberOfPeople;
+  const numberOfBeds = param.numberOfBeds;
+  const roomType = param.roomType;
+  const roomStatus = param.roomStatus;
+  const dateString = param.dateString;
+
+  const roomReg = await getAssetRegistry(namespace + '.Room');   
+
+  // getting next id
+  let existingRooms = await roomReg.getAll();
+  let numberOfRooms = 0;
+  
+  await existingRooms.forEach(function (room) {
+    numberOfRooms ++;
+  });
+  numberOfRooms ++; 	
+
+  const room3 = await factory.newResource(namespace, 'Room', numberOfRooms.toString());
+  room3.date = new Date(dateString);
+  room3.numberOfPeople = numberOfPeople;
+  room3.numberOfBeds = numberOfBeds;
+  room3.roomType = roomType;
+  room3.roomStatus = roomStatus;
+  
+  room3.hotel = hotel;
+  
+  await roomReg.add(room3);         
+  
 }
 
 /**
@@ -154,6 +186,7 @@ async function ReserveRoomTransaction(param) {
  */
 async function TransferRoomTransaction(param) {  
 }
+
 
 
 
