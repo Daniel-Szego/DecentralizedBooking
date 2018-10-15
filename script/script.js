@@ -191,6 +191,7 @@ async function ReserveRoomTransaction(param) {
    
    const roomReg = await getAssetRegistry(namespace + '.Room'); 
    room.roomStatus = "RESEREVED";
+   room.endUser = user;
    await roomReg.update(room); 
   
    // emitting ObjectReservered event
@@ -207,9 +208,23 @@ async function ReserveRoomTransaction(param) {
  * @transaction
  */
 async function TransferRoomTransaction(param) {  
+ let room = param.room;
+ let endUser = param.to;
+  
+ const factory = getFactory(); 
+   
+ const roomReg = await getAssetRegistry(namespace + '.Room'); 
+ room.roomStatus = "RESEREVED";
+ room.endUser = endUser;
+ await roomReg.update(room); 
+  
+ // emitting ObjectTransferred event
+
+ let objectTransferredEvent = factory.newEvent(namespace, 'ObjectTransferred');
+ objectTransferredEvent.object = room;
+  objectTransferredEvent.to = endUser; 
+ await emit(objectTransferredEvent);  	  
 }
-
-
 
 
 
