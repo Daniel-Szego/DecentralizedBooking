@@ -67,7 +67,45 @@ async function InitTestDataTransaction(param) {
   
     await endUserReg.add(endUser2);       
 
+    console.log('Creating Room 1');  
+	
+  	// adding room 1
+    const roomReg = await getAssetRegistry(namespace + '.Room');   
+    const room = await factory.newResource(namespace, 'Room', "1");
+    var dateString = "2019-01-01";
+    room.date = new Date(dateString);
+    room.numberOfPeople = 3;
+    room.numberOfBeds = 2;
+    room.roomType = "SIMPLE";
+    room.roomStatus = "FREE";
+    room.hotel = hotel;
   
+    await roomReg.add(room);       
+
+    // adding room 2
+    const room2 = await factory.newResource(namespace, 'Room', "2");
+    var dateString2 = "2019-01-01";
+    room2.date = new Date(dateString2);
+    room2.numberOfPeople = 3;
+    room2.numberOfBeds = 2;
+    room2.roomType = "SIMPLE";
+    room2.roomStatus = "DELUXE";
+    room2.hotel = hotel2;
+  
+    await roomReg.add(room2);       
+
+    // adding room 3
+    const room3 = await factory.newResource(namespace, 'Room', "3");
+    var dateString3 = "2019-01-01";
+    room3.date = new Date(dateString3);
+    room3.numberOfPeople = 3;
+    room3.numberOfBeds = 2;
+    room3.roomType = "SIMPLE";
+    room3.roomStatus = "FREE";
+    room3.hotel = hotel2;
+  
+    await roomReg.add(room3);       
+
 }
 
 /**
@@ -116,4 +154,10 @@ async function ReserveRoomTransaction(param) {
  */
 async function TransferRoomTransaction(param) {  
 }
+
+
+
+
+
+
 

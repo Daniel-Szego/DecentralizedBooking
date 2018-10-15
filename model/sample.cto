@@ -29,7 +29,7 @@ abstract asset BookableObject identified by bookableId {
 
 enum RoomType {
   o SIMPLE
-  o DELUX
+  o DELUXE
   o KING
 }
 
@@ -118,5 +118,4 @@ event ObjectTransferred {
   --> BookableObject object
   --> EndUser to 
 }
-
 
