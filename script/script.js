@@ -167,7 +167,14 @@ async function IssueHotelRoomTransaction(param) {
   
   room3.hotel = hotel;
   
-  await roomReg.add(room3);         
+  await roomReg.add(room3);      
+  
+  // emitting ObjectIssued event
+
+  let objectIssuedEvent = factory.newEvent(namespace, 'ObjectIssued');
+  objectIssuedEvent.object = room3;
+  objectIssuedEvent.objectHolder = hotel;
+  await emit(objectIssuedEvent);  	
   
 }
 
@@ -177,6 +184,21 @@ async function IssueHotelRoomTransaction(param) {
  * @transaction
  */
 async function ReserveRoomTransaction(param) {  
+   let room = param.room
+   let user = param.me
+   
+   const factory = getFactory(); 
+   
+   const roomReg = await getAssetRegistry(namespace + '.Room'); 
+   room.roomStatus = "RESEREVED";
+   await roomReg.update(room); 
+  
+   // emitting ObjectReservered event
+
+   let objectreservedEvent = factory.newEvent(namespace, 'ObjectReservered');
+   objectreservedEvent.object = room;
+   await emit(objectreservedEvent);  	
+
 }
 
 /**
@@ -186,9 +208,6 @@ async function ReserveRoomTransaction(param) {
  */
 async function TransferRoomTransaction(param) {  
 }
-
-
-
 
 
 
