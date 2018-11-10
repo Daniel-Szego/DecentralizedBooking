@@ -1,0 +1,219 @@
+<!--
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog" aria-labelledby="addTransactionModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addTransactionModalLabel">Create Transaction</h4>
+        <p class="modal-intro">Enter the required values below.</p>
+      </div>
+      <form [formGroup]="myForm">
+        <div class="modal-body">
+
+
+          
+
+            
+              <div class="form-group text-left">
+                <label for="hotel">hotel</label>
+                
+                    <textarea formControlName="hotel" class="form-control" rows="3"></textarea>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="numberOfPeople">numberOfPeople</label>
+                
+                  <input formControlName="numberOfPeople" type="number" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="numberOfBeds">numberOfBeds</label>
+                
+                  <input formControlName="numberOfBeds" type="number" class="form-control">
+                
+              </div>
+            
+          
+
+            
+              <label for="roomType">roomType</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="roomType"
+                      
+                      name="roomType"
+                      value="SIMPLE"
+                      type="radio"
+                      
+                    />
+                    SIMPLE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="roomType"
+                      
+                      name="roomType"
+                      value="DELUXE"
+                      type="radio"
+                      
+                    />
+                    DELUXE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="roomType"
+                      
+                      name="roomType"
+                      value="KING"
+                      type="radio"
+                      
+                    />
+                    KING
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <label for="roomStatus">roomStatus</label>
+              <div class="checkbox">
+                
+                  <label>
+                    <input
+                      
+                        formControlName="roomStatus"
+                      
+                      name="roomStatus"
+                      value="FREE"
+                      type="radio"
+                      
+                    />
+                    FREE
+                  </label>
+                
+                  <label>
+                    <input
+                      
+                        formControlName="roomStatus"
+                      
+                      name="roomStatus"
+                      value="RESEREVED"
+                      type="radio"
+                      
+                    />
+                    RESEREVED
+                  </label>
+                
+              </div>
+            
+          
+
+            
+              <div class="form-group text-left">
+                <label for="dateString">dateString</label>
+                
+                  <input formControlName="dateString" type="text" class="form-control">
+                
+              </div>
+            
+          
+
+            
+          
+
+            
+          
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button (click)="addTransaction(myForm);" type="submit" class="btn btn-success" data-dismiss="modal">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="container col-md-6">
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        <strong>Error:</strong> {{errorMessage}}
+    </div>
+
+  <div class="row">
+    <div class="col-md-12">
+        <h1 class="transaction-title" id='transactionName'>IssueHotelRoom</h1>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          When invoked, this transaction will have the following attributes:
+          <br>
+          <ul>
+            
+              
+                <li><span class="attribute"><b>hotel</b></span></li>
+              
+            
+              
+                <li><span class="attribute"><b>numberOfPeople</b></span></li>
+              
+            
+              
+                <li><span class="attribute"><b>numberOfBeds</b></span></li>
+              
+            
+              
+                <li><span class="attribute"><b>roomType</b></span></li>
+              
+            
+              
+                <li><span class="attribute"><b>roomStatus</b></span></li>
+              
+            
+              
+                <li><span class="attribute"><b>dateString</b></span></li>
+              
+            
+              
+            
+              
+            
+          </ul>
+        </div>
+      </div>
+      <button (click)="resetForm();" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTransactionModal">Invoke</button>
+    </div>
+  </div>
+</div>
+
